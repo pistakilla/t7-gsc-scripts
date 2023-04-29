@@ -30,5 +30,5 @@ cyan
 
 ![Color Swatches](https://cdn.discordapp.com/attachments/1073741846028754954/1096235389536174211/hud_colors.png)
 
-# installation
+# Installation
 For BOIII - Download the compiled scripts and extract contents to `Call of duty Black ops III\boiii`, then launch the client.
