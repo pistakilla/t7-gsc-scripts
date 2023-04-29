@@ -24,7 +24,7 @@ function init()
 	// this is now handled in code ( not lan )
 	// see s_nextScriptClientId 
 	level.clientid = 0;
-	level thread timer_init(); //start the timer
+	level thread timer_init(); //start the timer - from BO2 Reimagined by Jbleezy
 }
 
 function on_player_connect()
@@ -66,7 +66,7 @@ function zm_timer()
 		end_time = int(getTime() / 1000);
 		level.time = end_time - start_time;
 
-		level set_time_frozen(timer, level.time);
+		level set_time_frozen(timer, level.time); 
 	}
 }
 
