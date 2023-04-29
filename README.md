@@ -1,2 +1,5 @@
-# t7 gsc scripts
- a compilation of scripts for black ops 3
+# T7 GSC Scripts
+A compilation of scripts for black ops 3 that I made. 
+
+
+    
