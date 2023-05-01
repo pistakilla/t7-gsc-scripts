@@ -42,60 +42,22 @@ function hp_hud()
     level endon("end_game");
     self endon("disconnect");
 
-    self.point_x = -278.5;
-    self.point_y = 190;
+    point_x = -278.5;
+    point_y  = 190;
     level flag::wait_till("initial_blackscreen_passed");
 
-    if(getdvarstring("hp_color") == "") setDvar("hp_color", "white");
-
-    switch(getdvarstring("hp_color"))
-    {
-        case "white":
-            color = (1, 1, 1);
-            text_color = (0, 0, 0);
-            break;
-        case "black":
-            color = (0, 0, 0);
-            text_color = (1, 1, 1);
-            break;
-        case "grey":
-            color = (rgb_red(100), rgb_green(100), rgb_blue(100));
-            break;
-        case "blue":
-            color = (rgb_red(0), rgb_green(0), rgb_blue(255));
-            text_color = (1, 1, 1);
-            break;
-        case "green":
-            color = (rgb_red(0), rgb_green(125), rgb_blue(31));
-            text_color = (1, 1, 1);
-            break;
-        case "red":
-            color = (rgb_red(220), rgb_green(0), rgb_blue(0));
-            text_color = (1, 1, 1);
-            break;
-        case "dred":
-            color = (rgb_red(90), rgb_green(0), rgb_blue(0));
-            text_color = (1, 1, 1);
-            break;
-        case "cyan":
-            color = (rgb_red(0), rgb_green(187), rgb_blue(250));
-            text_color = (1, 1, 1);
-            break;
-        case "":
-        default:
-            color = (1, 1, 1);
-            text_color = (0, 0, 0);
-            break;
-    }
-
-    hp_bar = hud::createbar(( color ), 120, 15);
-    hp_bar hud::setpoint("CENTER", undefined, self.point_x, self.point_y);
+    if(getdvarstring("hp_color") == "") 
+        setDvar("hp_color", "white");
+        
+    colors = GetColors(getdvarstring("hp_color"));
+    hp_bar = hud::createbar(( colors.color ), 120, 15);
+    hp_bar hud::setpoint("CENTER", undefined, point_x, point_y );
     hp_bar.hidewheninmenu = 1;
 
     hp = hud::createfontstring("objective", 1.25); //health value
-    hp hud::setpoint("CENTER", undefined, self.point_x, self.point_y);
+    hp hud::setpoint("CENTER", undefined, point_x, point_y );
     hp.hidewheninmenu = 1;
-    hp.color = ( text_color );
+    hp.color = colors.text_color;
 
     for(;;)
     {
@@ -123,13 +85,55 @@ function hp_hud()
     }
 }
 
+function GetColors()
+{
+    colors = SpawnStruct();
+    colors.color = (1, 1, 1);
+    colors.text_color = (0, 0, 0);
+    switch()
+    {
+        case "white":
+            colors.color = (1, 1, 1);
+            colors.text_color = (0, 0, 0);
+            break;
+        case "black":
+            colors.color = (0, 0, 0);
+            colors.text_color = (1, 1, 1);
+            break;
+        case "grey":
+            colors.color = (to_rgb(100), to_rgb(100), to_rgb(100));
+            break;
+        case "blue":
+            colors.color = (to_rgb(0), to_rgb(0), to_rgb(255));
+            colors.text_color = (1, 1, 1);
+            break;
+        case "green":
+            colors.color = (to_rgb(0), to_rgb(125), to_rgb(31));
+            colors.text_color = (1, 1, 1);
+            break;
+        case "red":
+            colors.color = (to_rgb(220), to_rgb(0), to_rgb(0));
+            colors.text_color = (1, 1, 1);
+            break;
+        case "dred":
+            colors.color = (to_rgb(90), to_rgb(0), to_rgb(0));
+            colors.text_color = (1, 1, 1);
+            break;
+        case "cyan":
+            colors.color = (to_rgb(0), to_rgb(187), to_rgb(250));
+            colors.text_color = (1, 1, 1);
+            break;
+    }
+    return colors;
+}
+
 function zm_hud()
 {
-    level.var_x = -188;
-    level.var_y = 188;
+    var_x = -188;
+    var_y = 188;
 
     infected_count = hud::createserverfontstring("objective", 1.95); //health value
-    infected_count hud::setpoint("CENTER", undefined, level.var_x, level.var_y );
+    infected_count hud::setpoint("CENTER", undefined, var_x, var_y );
     infected_count.hidewheninmenu = 1;
 
     if(getdvarstring("zm_color") == "") setDvar("zm_color", "white");
@@ -143,22 +147,22 @@ function zm_hud()
             color = (0, 0, 0);
             break;
         case "grey":
-            color = (rgb_red(100), rgb_green(100), rgb_blue(100));
+            color = (to_rgb(100), to_rgb(100), to_rgb(100));
             break;
         case "blue":
-            color = (rgb_red(0), rgb_green(0), rgb_blue(255));
+            color = (to_rgb(0), to_rgb(0), to_rgb(255));
             break;
         case "green":
-            color = (rgb_red(0), rgb_green(125), rgb_blue(31));
+            color = (to_rgb(0), to_rgb(125), to_rgb(31));
             break;
         case "red":
-            color = (rgb_red(220), rgb_green(0), rgb_blue(0));
+            color = (to_rgb(220), to_rgb(0), to_rgb(0));
             break;
         case "dred":
-            color = (rgb_red(90), rgb_green(0), rgb_blue(0));
+            color = (to_rgb(90), to_rgb(0), to_rgb(0));
             break;
         case "cyan":
-            color = (rgb_red(0), rgb_green(187), rgb_blue(250));
+            color = (to_rgb(0), to_rgb(187), to_rgb(250));
             break;
         case "":
         default:
@@ -182,7 +186,8 @@ function zm_hud()
 			infected_count SetValue(infected_left);
 		}
         
-        if(level.hud_destory == true) infected_count destroy();
+        if(level.hud_destory == true) 
+            infected_count destroy();
 		wait 0.05;
 	}
 }
@@ -196,19 +201,7 @@ function hud_destroy()
     level.hud_destory = true;
 }
 
-function rgb_red(x)
-{
-    val = x / 255;
-    return val;
-}
-
-function rgb_green(x)
-{
-    val = x / 255;
-    return val;
-}
-
-function rgb_blue(x)
+function to_rgb(x)
 {
     val = x / 255;
     return val;
