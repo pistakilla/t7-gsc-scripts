@@ -85,12 +85,12 @@ function hp_hud()
     }
 }
 
-function GetColors()
+function GetColors(color)
 {
     colors = SpawnStruct();
     colors.color = (1, 1, 1);
     colors.text_color = (0, 0, 0);
-    switch()
+    switch(color)
     {
         case "white":
             colors.color = (1, 1, 1);
