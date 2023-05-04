@@ -38,15 +38,16 @@ function on_player_connect()
 
 function hp_hud()
 {
-    level endon("game_ended");
     level endon("end_game");
     self endon("disconnect");
 
-    point_x = -278.5;
-    point_y  = 190;
-	
-    self.point_x = getdvarint("hp_point_x");
-    self.point_y = getdvarint("hp_point_y");   //Dvar for HP Hud position
+    if(getdvarfloat("hp_point_x") != "" )
+        setdvar("hp_point_x", -278.5);
+    if(getdvarfloat("hp_point_y") != "" ) //Dvar for HP Hud position
+        setDvar("hp_point_y", 190);
+    point_x = getdvarfloat("hp_point_x");
+    point_y = getdvarfloat("hp_point_y");
+
     level flag::wait_till("initial_blackscreen_passed");
 
     if(getdvarstring("hp_color") == "") 
@@ -88,12 +89,12 @@ function hp_hud()
     }
 }
 
-function GetColors()
+function GetColors(color)
 {
     colors = SpawnStruct();
     colors.color = (1, 1, 1);
     colors.text_color = (0, 0, 0);
-    switch()
+    switch(color)
     {
         case "white":
             colors.color = (1, 1, 1);
@@ -132,51 +133,22 @@ function GetColors()
 
 function zm_hud()
 {
-    var_x = -188;
-    var_y = 188;
-
-    level.var_x = getdvarint("zm_counter_x");
-    level.var_y = getdvarint("zm_counter_y");  //Dvar for ZM Counter Position
+    if(getDvarFloat("zm_point_x") != "")
+        setdvar("zm_point_x", -188);
+    if(getDvarFloat("zm_point_y") != "")
+        setdvar("zm_point_y", 188);
+    var_x = getdvarfloat("zm_point_x");
+    var_y = getdvarfloat("zm_point_y");  //Dvar for ZM Counter Position
 
     infected_count = hud::createserverfontstring("objective", 1.95); //health value
     infected_count hud::setpoint("CENTER", undefined, var_x, var_y );
     infected_count.hidewheninmenu = 1;
 
-    if(getdvarstring("zm_color") == "") setDvar("zm_color", "white");
+    if(getdvarstring("zm_color") == "") 
+        setDvar("zm_color", "white");
 
-    switch(getdvarstring("zm_color"))
-    {
-        case "white":
-            color = (1, 1, 1);
-            break;
-        case "black":
-            color = (0, 0, 0);
-            break;
-        case "grey":
-            color = (to_rgb(100), to_rgb(100), to_rgb(100));
-            break;
-        case "blue":
-            color = (to_rgb(0), to_rgb(0), to_rgb(255));
-            break;
-        case "green":
-            color = (to_rgb(0), to_rgb(125), to_rgb(31));
-            break;
-        case "red":
-            color = (to_rgb(220), to_rgb(0), to_rgb(0));
-            break;
-        case "dred":
-            color = (to_rgb(90), to_rgb(0), to_rgb(0));
-            break;
-        case "cyan":
-            color = (to_rgb(0), to_rgb(187), to_rgb(250));
-            break;
-        case "":
-        default:
-            color = (1, 1, 1);
-            break;
-    }
-
-    infected_count.color = (color);
+    colors = GetColors(getdvarstring("zm_color"));
+    infected_count.color = (colors.color);
 
 	for(;;)
 	{
