@@ -16,25 +16,11 @@ REGISTER_SYSTEM( "xytox_timer", &__init__, undefined )
 function __init__()
 {
 	callback::on_start_gametype( &init );
-	callback::on_connect( &on_player_connect );
 }	
 
 function init()
 {
-	// this is now handled in code ( not lan )
-	// see s_nextScriptClientId 
-	level.clientid = 0;
 	level thread timer_init(); //start the timer - from BO2 Reimagined by Jbleezy
-}
-
-function on_player_connect()
-{
-	self.clientid = matchRecordNewPlayer( self );
-	if ( !isdefined( self.clientid ) || self.clientid == -1 )
-	{
-		self.clientid = level.clientid;
-		level.clientid++;	// Is this safe? What if a server runs for a long time and many people join/leave
-	}
 }
 
 function timer_init()
@@ -48,7 +34,8 @@ function timer_init()
 
 function zm_timer()
 {
-	level waittill("start_of_round");
+	//level waittill("start_of_round");
+	level flag::wait_till("initial_blackscreen_passed");
 
 	level thread zm_round_timer();
 	level thread fullscreen_timer();
