@@ -19,28 +19,17 @@ function __init__()
 
 function init()
 {
-    level.clientid = 0;
     level thread zm_hud();
     level thread hud_destroy();
 }
 
 function on_player_connect()
 {
-    self.clientid = matchrecordnewplayer(self);
-	if(!isdefined(self.clientid) || self.clientid == -1)
-	{
-		self.clientid = level.clientid;
-		level.clientid++;
-	}
-
     self thread hp_hud();
 }
 
 function hp_hud()
 {
-    level endon("end_game");
-    self endon("disconnect");
-
     if(getdvarfloat("hp_point_x") != "" )
         setdvar("hp_point_x", -278.5);
     if(getdvarfloat("hp_point_y") != "" ) //Dvar for HP Hud position
